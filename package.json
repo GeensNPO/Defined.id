@@ -1,6 +1,6 @@
 {
     "name": "defined-id",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -16,8 +16,10 @@
         "postversion": "git push && git push --tags"
     },
     "repository": {
-        "type": "git"
+        "type": "git",
+        "url" : "https://github.com/GeensNPO/Defined.id.git"
     },
+    "homepage": "https://github.com/GeensNPO/Defined.id",
     "author": "Geens NPO",
     "license": "ISC",
     "devDependencies": {
