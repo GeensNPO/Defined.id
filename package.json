@@ -1,6 +1,6 @@
 {
-    "name": "defined-id",
-    "version": "0.1.0",
+    "name": "@geens_npo/defined-id",
+    "version": "0.1.2",
     "description": "",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -17,7 +17,7 @@
     },
     "repository": {
         "type": "git",
-        "url" : "https://github.com/GeensNPO/Defined.id.git"
+        "url": "https://github.com/GeensNPO/Defined.id.git"
     },
     "homepage": "https://github.com/GeensNPO/Defined.id",
     "author": "Geens NPO",
