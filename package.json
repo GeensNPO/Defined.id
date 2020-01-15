@@ -35,6 +35,7 @@
     },
     "dependencies": {
         "@types/node": "^10.12.18",
+        "@types/node-fetch": "^2.5.4",
         "@types/uuid": "^3.4.4",
         "base-58": "0.0.1",
         "base58check": "^2.0.0",
@@ -42,7 +43,7 @@
         "js-sha256": "^0.9.0",
         "jsonld": "^1.4.0",
         "key-encoder": "^1.1.7",
-        "nem2-sdk": "0.10.2",
+        "nem2-sdk": "^0.16.2",
         "ripemd160": "^2.0.2",
         "tweetnacl": "^1.0.1",
         "tweetnacl-util": "^0.15.0"

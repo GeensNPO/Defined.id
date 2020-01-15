@@ -13,11 +13,11 @@ const NetworkType = nem2Sdk.NetworkType;
 const TransactionInfo = nem2Sdk.TransactionInfo;
 const Account = nem2Sdk.Account;
 
-const account = Account.generateNewAccount(NetworkType.MIJIN_TEST);
-const account2 = Account.generateNewAccount(NetworkType.MIJIN_TEST);
+const account = Account.generateNewAccount(NetworkType.TEST_NET);
+const account2 = Account.generateNewAccount(NetworkType.TEST_NET);
 
 let validTransferTransaction = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
@@ -30,7 +30,7 @@ let validTransferTransaction = new TransferTransaction(
 );
 
 let validTransferTransaction3 = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
@@ -43,7 +43,7 @@ let validTransferTransaction3 = new TransferTransaction(
 );
 
 let validTransferTransaction2 = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
@@ -56,7 +56,7 @@ let validTransferTransaction2 = new TransferTransaction(
 );
 
 let transferTransactionDifferentReceiver = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
@@ -95,7 +95,7 @@ describe('NemTransactionService', () => {
                 test('signedTransaction', () => {
 
 
-                        NemTransactionService.createTimestampTransaction(nemAccount, documentHash).then((sgndTransaction) => {
+                        NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri).then((sgndTransaction) => {
                             signedTransaction = sgndTransaction;
                             expect(sgndTransaction).toBeInstanceOf(nem2Sdk.SignedTransaction);
                         }).catch((error) => {

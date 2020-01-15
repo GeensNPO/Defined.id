@@ -4,7 +4,7 @@ import TransferTransaction = nem2Sdk.TransferTransaction;
 
 export class TransactionFilter {
   public static transferTransactionSameSenderReceiver(tx: Transaction): boolean {
-    if(tx instanceof TransferTransaction && tx.signer && tx.recipient.equals(tx.signer.address)) {
+    if(tx instanceof TransferTransaction && tx.signer && tx.recipientAddress.equals(tx.signer.address)) {
       return true;
     } else {
       return false;

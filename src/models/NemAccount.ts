@@ -14,7 +14,6 @@ export class NemAccount {
     private readonly _networkType: NetworkType | undefined;
     private readonly _account: Account | undefined;
 
-
     constructor(key: Key, blockchain: string) {
         this._key = key;
         this._blockchain = blockchain;
@@ -50,6 +49,11 @@ export class NemAccount {
             return Account.createFromPrivateKey(this._privateKey, this._networkType);
         }
         return undefined;
+    }
+
+    private getGenerationHash(): string | undefined{
+        const generationHash = Blockchain
+        return 
     }
 
     get publicAccount(): nem2Sdk.PublicAccount | undefined{
