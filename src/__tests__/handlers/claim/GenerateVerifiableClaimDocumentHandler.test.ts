@@ -24,7 +24,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                         lastName: "id"
                     },
                     issuanceDate: "2018-10-10",
-                    expirationDate: "2019-10-10"
+                    expirationDate: "2020-10-10"
 
                 };
 
@@ -40,7 +40,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                 expect(verifiableClaimDocument.type).toEqual(["customType", "VerifiableCredential"]);
                 expect(verifiableClaimDocument.issuer).toBe("Defined id");
                 expect(verifiableClaimDocument.issuanceDate).toBe("2018-10-10");
-                expect(verifiableClaimDocument.expirationDate).toBe("2019-10-10");
+                expect(verifiableClaimDocument.expirationDate).toBe("2020-10-10");
                 expect(verifiableClaimDocument.claim).toEqual(
                     {
                         id: 'http://defined.id/vc/1',
@@ -66,7 +66,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                         lastName: "id"
                     },
                     issuanceDate: "2018-10-10",
-                    expirationDate: "2019-10-10"
+                    expirationDate: "2020-10-10"
 
                 };
 
@@ -82,7 +82,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                 expect(verifiableClaimDocument.type).toEqual(["customType", "VerifiableCredential"]);
                 expect(verifiableClaimDocument.issuer).toBe("Defined id");
                 expect(verifiableClaimDocument.issuanceDate).toBe("2018-10-10");
-                expect(verifiableClaimDocument.expirationDate).toBe("2019-10-10");
+                expect(verifiableClaimDocument.expirationDate).toBe("2020-10-10");
                 expect(verifiableClaimDocument.claim).toEqual(
                     {
                         id: 'http://defined.id/vc/1',
@@ -111,7 +111,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                     lastName: "id"
                 },
                 issuanceDate: "2018-10-10",
-                expirationDate: "2019-10-10"
+                expirationDate: "2020-10-10"
 
             };
 
@@ -127,7 +127,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
             expect(verifiableClaimDocument.type).toEqual(["VerifiableCredential"]);
             expect(verifiableClaimDocument.issuer).toBe("Defined id");
             expect(verifiableClaimDocument.issuanceDate).toBe("2018-10-10");
-            expect(verifiableClaimDocument.expirationDate).toBe("2019-10-10");
+            expect(verifiableClaimDocument.expirationDate).toBe("2020-10-10");
             expect(verifiableClaimDocument.claim).toEqual(
                 {
                     id: 'http://defined.id/vc/1',
@@ -157,7 +157,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                         lastName: "id"
                     },
                     issuanceDate: "2018-10-10",
-                    expirationDate: "2019-10-10"
+                    expirationDate: "2020-10-10"
 
                 };
 
@@ -182,7 +182,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                         lastName: "id"
                     },
                     issuanceDate: "2018-10-10",
-                    expirationDate: "2019-10-10"
+                    expirationDate: "2020-10-10"
 
                 };
 
@@ -211,7 +211,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                         lastName: "id"
                     },
                     issuanceDate: "2018-10-10",
-                    expirationDate: "2019-10-10"
+                    expirationDate: "2020-10-10"
 
                 };
 
@@ -240,7 +240,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                         lastName: "id"
                     },
                     issuanceDate: "",
-                    expirationDate: "2019-10-10"
+                    expirationDate: "2020-10-10"
 
                 };
 
@@ -264,8 +264,8 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                         firstName: "Defined",
                         lastName: "id"
                     },
-                    issuanceDate: "2019-10-10",
-                    expirationDate: "2019-10-10"
+                    issuanceDate: "2020-10-10",
+                    expirationDate: "2020-10-10"
 
                 };
 
@@ -350,7 +350,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                             lastName: "id"
                         },
                         issuanceDate: "2018-10-10",
-                        expirationDate: "2019-10-10"
+                        expirationDate: "2020-10-10"
 
                     };
 
@@ -375,7 +375,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                             lastName: "id"
                         },
                         issuanceDate: "2018-10-10",
-                        expirationDate: "2019-10-10"
+                        expirationDate: "2020-10-10"
 
                     };
 
@@ -402,7 +402,7 @@ describe('GenerateVerifiableClaimDocumentHandler', () => {
                             id: 'http://defined.id/vc/1'
                         },
                         issuanceDate: "2018-10-10",
-                        expirationDate: "2019-10-10"
+                        expirationDate: "2020-10-10"
 
                     };
 

@@ -28,13 +28,13 @@
         "js-sha256": "^0.9.0",
         "prettier": "^1.15.2",
         "ts-jest": "^23.10.5",
-        "ts-node": "^8.0.3",
+        "ts-node": "^8.6.2",
         "tslint": "^5.11.0",
         "tslint-config-prettier": "^1.16.0",
-        "typescript": "^3.1.6"
+        "typescript": "^3.7.4"
     },
     "dependencies": {
-        "@types/node": "^10.12.18",
+        "@types/node": "^10.17.13",
         "@types/node-fetch": "^2.5.4",
         "@types/uuid": "^3.4.4",
         "base-58": "0.0.1",
@@ -43,7 +43,7 @@
         "js-sha256": "^0.9.0",
         "jsonld": "^1.4.0",
         "key-encoder": "^1.1.7",
-        "nem2-sdk": "^0.16.2",
+        "nem2-sdk": "^0.16.3",
         "ripemd160": "^2.0.2",
         "tweetnacl": "^1.0.1",
         "tweetnacl-util": "^0.15.0"
