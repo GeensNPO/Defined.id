@@ -19,7 +19,7 @@ export class NemTransactionService {
 
     public static createTimestampTransaction(nemAccount : NemAccount, hash: string, nodeUri: string): Promise<nem2Sdk.SignedTransaction> {
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
 
             const privateKey : string | undefined= nemAccount.privateKey;
             const address: string | undefined = nemAccount.address;
@@ -34,8 +34,8 @@ export class NemTransactionService {
                 );
 
                 const account = Account.createFromPrivateKey(privateKey, networkType);
-
-                return resolve(account.sign(transferTransaction, Blockchain.getGenerationHash(nodeUri)));
+                const generationHash = await Blockchain.getGenerationHash(nodeUri);
+                return resolve(account.sign(transferTransaction, generationHash));
 
             } else {
                 return reject('Failed to create timestamp transaction');

@@ -14,17 +14,16 @@ export class Blockchain {
 
     }
   }
-/*
-  public static getGenerationHash(nodeUri: string): any {
-    fetch(nodeUri + '/block/1')
+
+  public static getGenerationHash(nodeUri: string): Promise<string> {
+    return fetch(nodeUri + '/block/1')
       .then((response) => {
         return response.json();
       })
       .then((json) => {
-        return json.meta.generationHash as String
-      });
-  }*/
-  public static getGenerationHash(nodeUri: string): string {
-   return "DAC066B6DEC25B4255BAE7872C001147EE1CAE5063080B839D0D2219A901209C"
+        return json.meta.generationHash as string
+      })
+      
   }
+  
 }
