@@ -94,7 +94,6 @@ describe('NemTransactionService', () => {
                 let signedTransaction: nem2Sdk.SignedTransaction;
                 test('signedTransaction', () => {
 
-
                         NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri).then((sgndTransaction) => {
                             signedTransaction = sgndTransaction;
                             expect(sgndTransaction).toBeInstanceOf(nem2Sdk.SignedTransaction);
@@ -103,19 +102,22 @@ describe('NemTransactionService', () => {
                         });
                 });
                 test('transaction', () => {
+                    
                     NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri).then((sgndTransaction) => {
                         signedTransaction = sgndTransaction;
                         let announceTransactionMock = jest.fn();
-                        
                         announceTransactionMock.mockResolvedValue(signedTransaction.hash);
                         NemTransactionService.announceTransaction = announceTransactionMock.bind(NemTransactionService);
 
                         NemTransactionService.timestampTransaction(nemAccount, documentHash, nodeUri).then((transaction: string) => {
                         expect(transaction).toMatch(transactionRegex);
+                        
                     }).catch((error) => {
                         expect(error).toBeUndefined();
                     });
-                   
+                    }).catch((error) => {
+                        expect(error).toBeUndefined();
+                    });
 
                     
 
