@@ -13,16 +13,16 @@ const NetworkType = nem2Sdk.NetworkType;
 const TransactionInfo = nem2Sdk.TransactionInfo;
 const Account = nem2Sdk.Account;
 
-const account = Account.generateNewAccount(NetworkType.MIJIN_TEST);
-const account2 = Account.generateNewAccount(NetworkType.MIJIN_TEST);
+const account = Account.generateNewAccount(NetworkType.TEST_NET);
+const account2 = Account.generateNewAccount(NetworkType.TEST_NET);
 
 let validTransferTransaction = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
     account.address,
-    [new Mosaic(new MosaicId("nem:xem"), UInt64.fromUint(0))],
+    [],
     PlainMessage.create('1e04c3815f90220d3d3fdcc8bdae00c24b3d4fd9d2b3858a6eddeb973840c155'),
     undefined,
     account.publicAccount,
@@ -30,12 +30,12 @@ let validTransferTransaction = new TransferTransaction(
 );
 
 let validTransferTransaction3 = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
     account.address,
-    [new Mosaic(new MosaicId("nem:xem"), UInt64.fromUint(0))],
+    [],
     PlainMessage.create('49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
     undefined,
     account.publicAccount,
@@ -43,12 +43,12 @@ let validTransferTransaction3 = new TransferTransaction(
 );
 
 let validTransferTransaction2 = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
     account.address,
-    [new Mosaic(new MosaicId("nem:xem"), UInt64.fromUint(0))],
+    [],
     PlainMessage.create('59928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
     undefined,
     account.publicAccount,
@@ -56,12 +56,12 @@ let validTransferTransaction2 = new TransferTransaction(
 );
 
 let transferTransactionDifferentReceiver = new TransferTransaction(
-    NetworkType.MIJIN_TEST,
+    NetworkType.TEST_NET,
     3,
     Deadline.create(),
     UInt64.fromUint(0),
     account2.address,
-    [new Mosaic(new MosaicId("nem:xem"), UInt64.fromUint(0))],
+    [],
     PlainMessage.create('49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
     undefined,
     account.publicAccount,
@@ -94,8 +94,7 @@ describe('NemTransactionService', () => {
                 let signedTransaction: nem2Sdk.SignedTransaction;
                 test('signedTransaction', () => {
 
-
-                        NemTransactionService.createTimestampTransaction(nemAccount, documentHash).then((sgndTransaction) => {
+                        NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri).then((sgndTransaction) => {
                             signedTransaction = sgndTransaction;
                             expect(sgndTransaction).toBeInstanceOf(nem2Sdk.SignedTransaction);
                         }).catch((error) => {
@@ -103,17 +102,24 @@ describe('NemTransactionService', () => {
                         });
                 });
                 test('transaction', () => {
+                    
+                    NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri).then((sgndTransaction) => {
+                        signedTransaction = sgndTransaction;
+                        let announceTransactionMock = jest.fn();
+                        announceTransactionMock.mockResolvedValue(signedTransaction.hash);
+                        NemTransactionService.announceTransaction = announceTransactionMock.bind(NemTransactionService);
 
-
-                    let announceTransactionMock = jest.fn();
-                    announceTransactionMock.mockResolvedValue(signedTransaction.hash);
-                    NemTransactionService.announceTransaction = announceTransactionMock.bind(NemTransactionService);
-
-                    NemTransactionService.timestampTransaction(nemAccount, documentHash, nodeUri).then((transaction: string) => {
+                        NemTransactionService.timestampTransaction(nemAccount, documentHash, nodeUri).then((transaction: string) => {
                         expect(transaction).toMatch(transactionRegex);
+                        
                     }).catch((error) => {
                         expect(error).toBeUndefined();
                     });
+                    }).catch((error) => {
+                        expect(error).toBeUndefined();
+                    });
+
+                    
 
 
                 });

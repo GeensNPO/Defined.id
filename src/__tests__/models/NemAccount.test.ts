@@ -35,7 +35,7 @@ describe('NemAccount', () => {
                     expect(nemAccount.address).toMatch(addressRegex);
                 });
                 test('blockchain', () => {
-                    expect(nemAccount.networkType).toBe(NetworkType.MIJIN_TEST);
+                    expect(nemAccount.networkType).toBe(NetworkType.TEST_NET);
 
                 });
                 test('blockchain type', () => {

@@ -15,7 +15,7 @@ describe('IdentityService', () => {
 
                 NemTransactionService.getRegisteredHashes = getRegisteredHashesMock.bind(NemTransactionService);
 
-                const account = Account.generateNewAccount(NetworkType.MIJIN_TEST);
+                const account = Account.generateNewAccount(NetworkType.TEST_NET);
 
                 const registeredPromise = IdentityService.AccountRegistered(account.publicAccount, 'invalidhost:3000');
                 registeredPromise.then((result) => {

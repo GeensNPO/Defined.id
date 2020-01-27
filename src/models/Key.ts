@@ -73,7 +73,7 @@ export class Key implements IKey {
         const secretSeedHex = secretSeed.toString('hex');
         //Networktype does not matter for public key generation
         //Take note: for address generation, the networkType is important, so don't use this account for anything else than extracting the public and private keys.
-        const account = Account.createFromPrivateKey(secretSeedHex, NetworkType.MIJIN_TEST);
+        const account = Account.createFromPrivateKey(secretSeedHex, NetworkType.TEST_NET);
 
         const privateKey = Buffer.from(account.privateKey, 'hex');
         const publicKey = Buffer.from(account.publicKey, 'hex');

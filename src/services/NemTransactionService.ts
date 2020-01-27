@@ -17,9 +17,9 @@ const XEM = nem2Sdk.NetworkCurrencyMosaic;
 
 export class NemTransactionService {
 
-    public static createTimestampTransaction(nemAccount : NemAccount, hash: string): Promise<nem2Sdk.SignedTransaction> {
+    public static createTimestampTransaction(nemAccount : NemAccount, hash: string, nodeUri: string): Promise<nem2Sdk.SignedTransaction> {
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
 
             const privateKey : string | undefined= nemAccount.privateKey;
             const address: string | undefined = nemAccount.address;
@@ -30,12 +30,12 @@ export class NemTransactionService {
                     Address.createFromRawAddress(address),
                     [XEM.createRelative(0)],
                     PlainMessage.create(hash),
-                    networkType
+                    networkType,
                 );
 
                 const account = Account.createFromPrivateKey(privateKey, networkType);
-
-                return resolve(account.sign(transferTransaction));
+                const generationHash = await Blockchain.getGenerationHash(nodeUri);
+                return resolve(account.sign(transferTransaction, generationHash));
 
             } else {
                 return reject('Failed to create timestamp transaction');
@@ -57,7 +57,7 @@ export class NemTransactionService {
     }
 
     public static timestampTransaction(nemAccount : NemAccount, hash: string, nodeUri:string) {
-        return this.createTimestampTransaction(nemAccount, hash).then((signedTransaction) => {
+        return this.createTimestampTransaction(nemAccount, hash, nodeUri).then((signedTransaction) => {
             return this.announceTransaction(signedTransaction, nodeUri);
 
         });
@@ -83,7 +83,7 @@ export class NemTransactionService {
         //Extract the timestamps which are in the payload
         return new Promise((resolve, reject) => {
             const accountHttp = new AccountHttp(nodeUri);
-            accountHttp.outgoingTransactions(account).subscribe(
+            accountHttp.getAccountOutgoingTransactions(account.address).subscribe(
                 result => {
                     return resolve(this.getTransactionIndexForHashAndTxList(hash, result));
 
@@ -97,7 +97,7 @@ export class NemTransactionService {
     public static getRegisteredHashes(account: PublicAccount, nodeUri: string): Promise<string[]> {
         return new Promise((resolve, reject) => {
             const accountHttp = new AccountHttp(nodeUri);
-            accountHttp.outgoingTransactions(account).subscribe(
+            accountHttp.getAccountOutgoingTransactions(account.address).subscribe(
                 result => {
                     return resolve(NemTransactionService.getRegisteredHashesFromTxList(result));
                 },
