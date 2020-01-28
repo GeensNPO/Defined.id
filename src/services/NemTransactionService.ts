@@ -31,6 +31,7 @@ export class NemTransactionService {
                     [XEM.createRelative(0)],
                     PlainMessage.create(hash),
                     networkType,
+                    UInt64.fromUint(2000000) // should be a config parameter
                 );
 
                 const account = Account.createFromPrivateKey(privateKey, networkType);
