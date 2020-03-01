@@ -9,10 +9,10 @@
         "build": "tsc",
         "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
         "lint": "tslint -p tsconfig.json",
-        "prepare": "npm run build",
-        "prepublishOnly": "npm test",
+        "prepare": "yarn run build",
+        "prepublishOnly": "yarn test",
         "preversion": "",
-        "version": "npm run format && git add -A src",
+        "version": "yarn run format && git add -A src",
         "postversion": "git push && git push --tags"
     },
     "repository": {
@@ -31,12 +31,12 @@
         "ts-node": "^8.6.2",
         "tslint": "^5.11.0",
         "tslint-config-prettier": "^1.16.0",
-        "typescript": "^3.8.3"
+        "typescript": "^3.7.4"
     },
     "dependencies": {
-        "@types/node": "^10.17.17",
-        "@types/node-fetch": "^2.5.5",
-        "@types/uuid": "^3.4.8",
+        "@types/node": "^10.17.13",
+        "@types/node-fetch": "^2.5.4",
+        "@types/uuid": "^3.4.4",
         "base-58": "0.0.1",
         "base58check": "^2.0.0",
         "create-hmac": "^1.1.7",
@@ -45,6 +45,7 @@
         "key-encoder": "^1.1.7",
         "nem2-sdk": "^0.16.3",
         "qrcode": "^1.4.4",
+        "node-fetch": "^2.6.0",
         "ripemd160": "^2.0.2",
         "tweetnacl": "^1.0.1",
         "tweetnacl-util": "^0.15.0"
