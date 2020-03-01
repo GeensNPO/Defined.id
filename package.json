@@ -9,10 +9,10 @@
         "build": "tsc",
         "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
         "lint": "tslint -p tsconfig.json",
-        "prepare": "yarn run build",
-        "prepublishOnly": "yarn test",
+        "prepare": "npm run build",
+        "prepublishOnly": "npm test",
         "preversion": "",
-        "version": "yarn run format && git add -A src",
+        "version": "npm run format && git add -A src",
         "postversion": "git push && git push --tags"
     },
     "repository": {
