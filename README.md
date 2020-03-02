@@ -113,29 +113,38 @@ DID document generation.
 
 **Example:**
 ```typescript
-const services = [
-  {
+const services : IService[] = [
+  {  "did" : did.format(),
      "serviceName": "openid",
      "type": "OpenIdConnectVersion1.0Service",
      "serviceEndpoint": "https://openid.example.com/"
   }, 
-  {
+  { "did" : did.format(),
      "serviceName": "vcr",
      "type": "CredentialRepositoryService",
      "serviceEndpoint": "https://repository.example.com/service/8377464"
   },
-  {
+  {   "did" : did.format(),
      "serviceName": "xdi",
      "type": "XdiService",
      "serviceEndpoint": "https://xdi.example.com/8377464"
   }
  ];
 
+const publicKey : IPublicKey =
+{
+  "id": did.format() + "#authentication-key-1",
+  "owner": did.format(),
+  "type": "Ed25519VerificationKey2018",
+  "publicKeyHex": key.publicKey.toString('hex').toUpperCase(),
+
+}
+
 const didDocument: IDidDocument = {
             context: ['https://w3id.org/did/v1', 'https://w3id.org/security/v1'],
             id: did.format(),
             salt: did.salt,
-            publicKey: [key.publicKey, key1.publicKey],
+            publicKey: [publicKey],
             service: services,
             created: (new Date()).toISOString()
         };
@@ -157,7 +166,7 @@ const claim = {
   "lastName": "Id"
 };
 const issuanceDate = "2018-10-10";
-const expirationDate = "2019-10-10";
+const expirationDate = "2020-10-10";
 
  const document: IVerifiableClaimDocument = {
             context: context,
@@ -227,9 +236,8 @@ Generate document sha256 hash.
 
 **Example:**
 ```typescript
-const documentBytes = [20, 30, 20];
 
-const hash = SecurityService.sha256Hash(bytes);
+const documentHash = SecurityService.sha256StringHash(JSON.stringify(didDocument))
 ```
 
 ### Register Document Hash on NEM Catapult
