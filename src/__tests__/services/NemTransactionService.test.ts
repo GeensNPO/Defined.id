@@ -1,5 +1,5 @@
 import {NemAccount, NemTransactionService, Purposes, Key} from "../..";
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 import TransferTransaction = nem2Sdk.TransferTransaction;
 import Transaction = nem2Sdk.Transaction;
 

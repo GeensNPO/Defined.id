@@ -1,4 +1,4 @@
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 import {NemTransactionService} from '..';
 import PublicAccount = nem2Sdk.PublicAccount;
 

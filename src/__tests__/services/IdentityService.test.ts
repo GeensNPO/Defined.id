@@ -1,4 +1,4 @@
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 import {IdentityService} from '../../services/IdentityService';
 import {NemTransactionService} from '../../services/NemTransactionService';
 

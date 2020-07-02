@@ -1,7 +1,7 @@
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 import {Key} from "./Key";
 import {Blockchain} from "..";
-import {Account, NetworkType} from "nem2-sdk";
+import {Account, NetworkType} from "symbol-sdk";
 import {KeyPurposes} from "../enums/KeyPurposes";
 
 

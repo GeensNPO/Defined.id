@@ -1,6 +1,6 @@
 import {SecurityService, IKey, IKeyPurpose} from "..";
 import {KeyTypes} from "../enums/KeyTypes";
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 
 const nacl = require('tweetnacl');
 const naclUtil = require('tweetnacl-util');

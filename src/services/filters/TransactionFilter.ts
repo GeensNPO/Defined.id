@@ -1,4 +1,4 @@
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 import Transaction = nem2Sdk.Transaction;
 import TransferTransaction = nem2Sdk.TransferTransaction;
 

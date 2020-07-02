@@ -1,8 +1,9 @@
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 import {NemAccount, TransactionFilter, Blockchain} from "..";
 import PublicAccount = nem2Sdk.PublicAccount;
 import TransferTransaction = nem2Sdk.TransferTransaction;
 import Transaction = nem2Sdk.Transaction;
+import { AccountService, RepositoryFactoryHttp } from "symbol-sdk";
 
 const Address = nem2Sdk.Address;
 const Deadline = nem2Sdk.Deadline;
@@ -13,7 +14,7 @@ const Mosaic = nem2Sdk.Mosaic;
 const MosaicId = nem2Sdk.MosaicId;
 const TransactionHttp = nem2Sdk.TransactionHttp;
 const AccountHttp = nem2Sdk.AccountHttp;
-const XEM = nem2Sdk.NetworkCurrencyMosaic;
+const XEM = nem2Sdk.NetworkCurrencyLocal;
 
 export class NemTransactionService {
 
@@ -84,6 +85,8 @@ export class NemTransactionService {
         //Extract the timestamps which are in the payload
         return new Promise((resolve, reject) => {
             const accountHttp = new AccountHttp(nodeUri);
+            const repositoryFactory = new RepositoryFactoryHttp(nodeUri);
+         
             accountHttp.getAccountOutgoingTransactions(account.address).subscribe(
                 result => {
                     return resolve(this.getTransactionIndexForHashAndTxList(hash, result));

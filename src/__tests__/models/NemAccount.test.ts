@@ -1,6 +1,6 @@
 import {NemAccount, Key, Purposes, IKeyPurpose} from "../..";
 
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 
 const NetworkType = nem2Sdk.NetworkType;
 
