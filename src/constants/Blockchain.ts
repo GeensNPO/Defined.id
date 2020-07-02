@@ -1,4 +1,4 @@
-import nem2Sdk = require("nem2-sdk");
+import nem2Sdk = require("symbol-sdk");
 import NetworkType = nem2Sdk.NetworkType;
 import { error } from "util";
 const fetch = require("node-fetch");
