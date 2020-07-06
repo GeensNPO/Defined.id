@@ -29,7 +29,7 @@ export class NemTransactionService {
                 let transferTransaction = TransferTransaction.create(
                     Deadline.create(),
                     Address.createFromRawAddress(address),
-                    [XEM.createRelative(0)],
+                    [],
                     PlainMessage.create(hash),
                     networkType,
                     UInt64.fromUint(2000000) // should be a config parameter
