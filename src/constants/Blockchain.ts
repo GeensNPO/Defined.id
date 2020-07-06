@@ -18,12 +18,12 @@ export class Blockchain {
   }
 
   public static getGenerationHash(nodeUri: string): Promise<string> {
-    return fetch(nodeUri + '/block/1')
+    return fetch(nodeUri + '/node/info')
       .then((response: { json: () => any; }) => {
         return response.json();
       })
-      .then((json: { meta: { generationHash: string; }; }) => {
-        return json.meta.generationHash as string
+      .then((json: { networkGenerationHashSeed: string; }) => {
+        return json.networkGenerationHashSeed as string
       }).catch(
         console.log(error)
       )
