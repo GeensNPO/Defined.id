@@ -8,7 +8,7 @@ const NetworkType = nem2Sdk.NetworkType;
 describe('NemAccount', () => {
 
     const privateKeyRegex = /[A-Fa-f0-9]{64}/;
-    const addressRegex = /[A-Z0-9\-]{46}/;
+    const addressRegex = /[A-Z0-9\-]{45}/;
 
     describe('with valid', () => {
         describe('NemAccount', () => {
