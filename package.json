@@ -1,6 +1,6 @@
 {
     "name": "@geens_npo/defined-id",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -46,7 +46,7 @@
         "node-fetch": "^2.6.0",
         "qrcode": "^1.4.4",
         "ripemd160": "^2.0.2",
-        "symbol-sdk": "^0.19.2",
+        "symbol-sdk": "^0.20.6",
         "tweetnacl": "^1.0.1",
         "tweetnacl-util": "^0.15.0"
     }

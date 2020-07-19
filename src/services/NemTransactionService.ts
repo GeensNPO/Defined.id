@@ -1,9 +1,10 @@
 import nem2Sdk = require("symbol-sdk");
-import {NemAccount, TransactionFilter, Blockchain} from "..";
+import { NemAccount, TransactionFilter, Blockchain } from "..";
+import { NetworkService } from "./NetworkService";
 import PublicAccount = nem2Sdk.PublicAccount;
 import TransferTransaction = nem2Sdk.TransferTransaction;
 import Transaction = nem2Sdk.Transaction;
-import { AccountService, RepositoryFactoryHttp } from "symbol-sdk";
+import { RepositoryFactoryHttp, TransactionGroup, TransactionSearchCriteria, TransactionType } from "symbol-sdk";
 
 const Address = nem2Sdk.Address;
 const Deadline = nem2Sdk.Deadline;
@@ -36,7 +37,7 @@ export class NemTransactionService {
                 );
 
                 const account = Account.createFromPrivateKey(privateKey, networkType);
-                const generationHash = await Blockchain.getGenerationHash(nodeUri);
+                const generationHash = await NetworkService.getGenerationHash(nodeUri);
                 return resolve(account.sign(transferTransaction, generationHash));
 
             } else {
@@ -84,14 +85,14 @@ export class NemTransactionService {
     public static getTransactionIndexForHashAndAccount(account: PublicAccount, hash: string, nodeUri: string) {
         //Extract the timestamps which are in the payload
         return new Promise((resolve, reject) => {
-            const accountHttp = new AccountHttp(nodeUri);
-            const repositoryFactory = new RepositoryFactoryHttp(nodeUri);
-         
-            accountHttp.getAccountOutgoingTransactions(account.address).subscribe(
-                result => {
-                    return resolve(this.getTransactionIndexForHashAndTxList(hash, result));
 
-                },
+            const repositoryFactory = new RepositoryFactoryHttp(nodeUri);
+            const transactionHttp = repositoryFactory.createTransactionRepository();
+            
+            const searchCriteria: TransactionSearchCriteria = {group: TransactionGroup.Confirmed, signerPublicKey: account.publicKey, pageNumber: 1, pageSize: 100, type: [TransactionType.TRANSFER]};
+            transactionHttp
+                .search(searchCriteria)
+                .subscribe((page) => {return resolve(this.getTransactionIndexForHashAndTxList(hash, page.data))},
                 err => reject(err)
             );
         });
@@ -101,9 +102,14 @@ export class NemTransactionService {
     public static getRegisteredHashes(account: PublicAccount, nodeUri: string): Promise<string[]> {
         return new Promise((resolve, reject) => {
             const accountHttp = new AccountHttp(nodeUri);
-            accountHttp.getAccountOutgoingTransactions(account.address).subscribe(
-                result => {
-                    return resolve(NemTransactionService.getRegisteredHashesFromTxList(result));
+            const repositoryFactory = new RepositoryFactoryHttp(nodeUri);
+            const transactionHttp = repositoryFactory.createTransactionRepository();
+            const searchCriteria: TransactionSearchCriteria = {group: TransactionGroup.Confirmed, signerPublicKey: account.publicKey, pageNumber: 1, pageSize: 100, type: [TransactionType.TRANSFER]};
+            transactionHttp
+            .search(searchCriteria)
+            .subscribe(
+                page => {
+                    return resolve(NemTransactionService.getRegisteredHashesFromTxList(page.data));
                 },
                 err => reject(err)
             );
