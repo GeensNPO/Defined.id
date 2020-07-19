@@ -1,9 +1,10 @@
 import nem2Sdk = require("symbol-sdk");
-import {NemAccount, TransactionFilter, Blockchain} from "..";
+import { NemAccount, TransactionFilter, Blockchain } from "..";
+import { NetworkService } from "./NetworkService";
 import PublicAccount = nem2Sdk.PublicAccount;
 import TransferTransaction = nem2Sdk.TransferTransaction;
 import Transaction = nem2Sdk.Transaction;
-import { AccountService, RepositoryFactoryHttp, TransactionGroup, TransactionSearchCriteria, TransactionType } from "symbol-sdk";
+import { RepositoryFactoryHttp, TransactionGroup, TransactionSearchCriteria, TransactionType } from "symbol-sdk";
 
 const Address = nem2Sdk.Address;
 const Deadline = nem2Sdk.Deadline;
@@ -36,7 +37,7 @@ export class NemTransactionService {
                 );
 
                 const account = Account.createFromPrivateKey(privateKey, networkType);
-                const generationHash = await Blockchain.getGenerationHash(nodeUri);
+                const generationHash = await NetworkService.getGenerationHash(nodeUri);
                 return resolve(account.sign(transferTransaction, generationHash));
 
             } else {

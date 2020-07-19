@@ -1,8 +1,5 @@
 import nem2Sdk = require("symbol-sdk");
 import NetworkType = nem2Sdk.NetworkType;
-import { error } from "util";
-const fetch = require("node-fetch");
-
 
 export class Blockchain {
 
@@ -15,19 +12,6 @@ export class Blockchain {
             undefined
 
     }
-  }
-
-  public static getGenerationHash(nodeUri: string): Promise<string> {
-    return fetch(nodeUri + '/node/info')
-      .then((response: { json: () => any; }) => {
-        return response.json();
-      })
-      .then((json: { networkGenerationHashSeed: string; }) => {
-        return json.networkGenerationHashSeed as string
-      }).catch(
-        console.log(error)
-      )
-      
   }
   
 }
