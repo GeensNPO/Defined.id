@@ -15,10 +15,10 @@ describe('NemAccount', () => {
     }
 
     describe('with valid', () => {
-        describe('NemAccount', () => {
+        describe('NemAccount 24 words', () => {
 
             const personaId: number = 1;
-            const seed: string = 'emerge tennis tail van twelve recycle whip lock cloth say zoo heart push tower list oak burden husband local order effort front mansion royal'//mnemonic.toSeed().toString();
+            const seed: string = 'emerge tennis tail van twelve recycle whip lock cloth say zoo heart push tower list oak burden husband local order effort front mansion royal'
             const connectionId = 2;
             const blockchain: string = "PublicTestnet";
             const keyId: number = 100;
