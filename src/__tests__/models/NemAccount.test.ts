@@ -1,19 +1,24 @@
 import {NemAccount, Key, Purposes, IKeyPurpose} from "../..";
 
 import nem2Sdk = require("symbol-sdk");
+import {MnemonicPassPhrase} from 'symbol-hd-wallets';
 
 const NetworkType = nem2Sdk.NetworkType;
 
 
 describe('NemAccount', () => {
 
-    const privateKeyRegex = /[A-Fa-f0-9]{64}/;
-    const addressRegex = /[A-Z0-9\-]{45}/;
+    const account = {
+        privateKey: 'ECBDA04A87178D7D14D61B8A78F9BED1F7B4C67BD21E9480E45EAFA4D31684D7',
+        publicKey: '747516EC3411EA1F5614AF8620DACC90650FDBD96E37B1548D1D7B59EA932C03',
+        address: 'TD5I4Q-P6RTOP-WQY3IM-IOGU2L-AUOSMM-3QKBKS-K6I'
+    }
 
     describe('with valid', () => {
         describe('NemAccount', () => {
+
             const personaId: number = 1;
-            const seed: string = "seed";
+            const seed: string = 'emerge tennis tail van twelve recycle whip lock cloth say zoo heart push tower list oak burden husband local order effort front mansion royal'//mnemonic.toSeed().toString();
             const connectionId = 2;
             const blockchain: string = "PublicTestnet";
             const keyId: number = 100;
@@ -27,12 +32,16 @@ describe('NemAccount', () => {
                     connectionId
                 );
                 let nemAccount = new NemAccount(key, blockchain);
+                
                 test('private key', () => {
-                        expect(nemAccount.privateKey).toMatch(privateKeyRegex);
+                        expect(nemAccount.privateKey).toMatch(account.privateKey);
 
                     });
+                test('public key', () => {
+                    expect(nemAccount.publicKey).toMatch(account.publicKey);
+                })
                 test('address', () => {
-                    expect(nemAccount.address).toMatch(addressRegex);
+                    expect(nemAccount.address).toMatch(account.address);
                 });
                 test('blockchain', () => {
                     expect(nemAccount.networkType).toBe(NetworkType.TEST_NET);

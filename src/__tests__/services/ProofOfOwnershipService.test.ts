@@ -67,7 +67,7 @@ describe('ProofOfOwnershipService', () => {
           test('proof already present', () => {
               const poo = new ProofOfOwnership(did1, did2, key1.publicKey, date1, signature);
               const result = ProofOfOwnershipService.proveOwnership(poo, key1.secretKey)
-              expect(result).toEqual(['A ProofOfOwnerschip is already present']);
+              expect(result).toEqual(['A ProofOfOwnership is already present']);
           });
         });
 

@@ -8,7 +8,7 @@ export class ProofOfOwnershipService {
       const keypair = nacl.sign.keyPair.fromSecretKey(privateKey64);
 
       if(Buffer.compare(keypair.publicKey, poo.publicKey)) errors.push('Incorrect Private Key');
-      if(poo.signature) errors.push('A ProofOfOwnerschip is already present');
+      if(poo.signature) errors.push('A ProofOfOwnership is already present');
       if(errors.length === 0) {
         poo.timestamp = new Date();
         poo.signature = this.generateProofOfOwnership(poo, privateKey64);
