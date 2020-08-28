@@ -1,6 +1,9 @@
 import {SecurityService, IKey, IKeyPurpose} from "..";
 import {KeyTypes} from "../enums/KeyTypes";
 import nem2Sdk = require("symbol-sdk");
+import { ExtendedKey, MnemonicPassPhrase, Wallet, Network } from 'symbol-hd-wallets'
+import { AccountService } from "symbol-sdk";
+
 
 const nacl = require('tweetnacl');
 const naclUtil = require('tweetnacl-util');
@@ -16,6 +19,12 @@ export class Key implements IKey {
     public secretSeed: Buffer;
     public publicKey: Buffer;
     public privateKey: Buffer;
+
+    /**
+     * Default account derivation path
+     * @var {string}
+    */
+    public static readonly DEFAULT_ACCOUNT_PATH_SYMBOL = `m/44'/4343'/0'/0'/0'`
 
     //Private key representation used by tweetnacl. This is a 64 byte representation being a concatenation of a 32 byte private key and 32 byte public key.
     public privateKey64: Buffer;
@@ -42,7 +51,7 @@ export class Key implements IKey {
 
       switch(this.purpose.type) {
         case KeyTypes.NEM2Key:
-          return this.generateNEM2Key(secretSeed);
+          return this.generateNEM2Key(seed);
         case KeyTypes.Ed25519VerificationKey2018:
         default:
           return this.generateEd25519Key(secretSeed);
@@ -68,15 +77,20 @@ export class Key implements IKey {
     }
 
 
-    private generateNEM2Key(secretSeed: Buffer): {publickey: Buffer, privatekey: Buffer, privatekey64: Buffer, secretSeed: Buffer} {
+    private generateNEM2Key(words: string): {publickey: Buffer, privatekey: Buffer, privatekey64: Buffer, secretSeed: Buffer} {
 
-        const secretSeedHex = secretSeed.toString('hex');
+        const mnemonic = new MnemonicPassPhrase(words)
+        const bip32Seed = mnemonic.toSeed()
+        const xkey = ExtendedKey.createFromSeed(bip32Seed.toString('hex'));
+        const wallet = new Wallet(xkey.derivePath('m/44\'/4343\'/0\'/0\'/0\''));
+
         //Networktype does not matter for public key generation
         //Take note: for address generation, the networkType is important, so don't use this account for anything else than extracting the public and private keys.
-        const account = Account.createFromPrivateKey(secretSeedHex, NetworkType.TEST_NET);
+        const masterAccount = wallet.getAccount(NetworkType.TEST_NET)
+   
+        const privateKey = Buffer.from(masterAccount.privateKey, 'hex');
+        const publicKey = Buffer.from(masterAccount.publicKey, 'hex');
 
-        const privateKey = Buffer.from(account.privateKey, 'hex');
-        const publicKey = Buffer.from(account.publicKey, 'hex');
 
         //If length is 33 remove the zero byte from the public key
         let publicKeyRed = publicKey;
@@ -88,7 +102,7 @@ export class Key implements IKey {
             publickey: publicKey,
             privatekey: privateKey,
             privatekey64: privateKey64,
-            secretSeed: secretSeed,
+            secretSeed: bip32Seed,
         }
     }
 }

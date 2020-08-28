@@ -8,7 +8,7 @@ export abstract class BaseHandler<TRequest extends BaseRequest, TResponse extend
             if (validationErrors.length > 0) return { validationErrors: validationErrors };
             return this.handleCore(request);
         } catch (e) {
-            return { errors: ['An error has occured'] };
+            return { errors: ['An error has occurred'] };
         }
     }
 

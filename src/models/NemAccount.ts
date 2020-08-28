@@ -9,6 +9,7 @@ export class NemAccount {
 
     private _key: Key;
     private _privateKey: string | undefined;
+    private _publicKey: string | undefined;
     private _address: string | undefined;
     private readonly _blockchain: string;
     private readonly _networkType: NetworkType | undefined;
@@ -18,6 +19,7 @@ export class NemAccount {
         this._key = key;
         this._blockchain = blockchain;
         this._privateKey = this.derivePrivateKey();
+        this._publicKey= this.derivePublicKey();
         this._networkType = this.deriveNetworkType();
         this._account = this.deriveAccount();
         this._address = this.deriveAddress();
@@ -27,9 +29,19 @@ export class NemAccount {
     private derivePrivateKey(): string | undefined{
         if (this._key.purpose.purpose == KeyPurposes.nemRegistrationKey) {
 
-            this._privateKey = this._key.privateKey.toString('hex');
+            this._privateKey = this._key.privateKey.toString('hex').toUpperCase();
 
             return this._privateKey;
+        }
+        return undefined;
+    }
+
+    private derivePublicKey(): string | undefined{
+        if (this._key.purpose.purpose == KeyPurposes.nemRegistrationKey) {
+
+            this._publicKey = this._key.publicKey.toString('hex').toUpperCase();
+
+            return this._publicKey;
         }
         return undefined;
     }
@@ -60,12 +72,15 @@ export class NemAccount {
         return this._account ? this._account.publicAccount: undefined;
     }
 
-      get networkType(): nem2Sdk.NetworkType | undefined{
+    get networkType(): nem2Sdk.NetworkType | undefined{
         return this._networkType;
     }
 
     get privateKey(): string | undefined{
         return this._privateKey;
+    }
+    get publicKey(): string | undefined{
+        return this._publicKey;
     }
 
     get address(): string | undefined {
