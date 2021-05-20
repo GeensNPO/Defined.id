@@ -1,5 +1,7 @@
-import {NemAccount, NemTransactionService, Purposes, Key} from "../..";
-import nem2Sdk = require("symbol-sdk");
+import { NemAccount, NemTransactionService, Purposes, Key } from '../..';
+import nem2Sdk = require('symbol-sdk');
+import { ChronoUnit, Instant, LocalDateTime, ZoneId } from '@js-joda/core';
+
 import TransferTransaction = nem2Sdk.TransferTransaction;
 import Transaction = nem2Sdk.Transaction;
 
@@ -15,157 +17,170 @@ const Account = nem2Sdk.Account;
 
 const account = Account.generateNewAccount(NetworkType.TEST_NET);
 const account2 = Account.generateNewAccount(NetworkType.TEST_NET);
+const epochAdjustment = 1573430400;
 
 let validTransferTransaction = new TransferTransaction(
-    NetworkType.TEST_NET,
-    3,
-    Deadline.create(),
-    UInt64.fromUint(0),
-    account.address,
-    [],
-    PlainMessage.create('1e04c3815f90220d3d3fdcc8bdae00c24b3d4fd9d2b3858a6eddeb973840c155'),
-    undefined,
-    account.publicAccount,
-    new TransactionInfo(UInt64.fromUint(2), 0, '5C5D5BE3E511A20001701A97')
+  NetworkType.TEST_NET,
+  3,
+  Deadline.create(epochAdjustment, 1, ChronoUnit.HOURS),
+  UInt64.fromUint(0),
+  account.address,
+  [],
+  PlainMessage.create('1e04c3815f90220d3d3fdcc8bdae00c24b3d4fd9d2b3858a6eddeb973840c155'),
+  undefined,
+  account.publicAccount,
+  new TransactionInfo(UInt64.fromUint(2), 0, '5C5D5BE3E511A20001701A97'),
 );
 
 let validTransferTransaction3 = new TransferTransaction(
-    NetworkType.TEST_NET,
-    3,
-    Deadline.create(),
-    UInt64.fromUint(0),
-    account.address,
-    [],
-    PlainMessage.create('49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
-    undefined,
-    account.publicAccount,
-    new TransactionInfo(UInt64.fromUint(101), 0, '5C5D5BE3E511A20001701A97')
+  NetworkType.TEST_NET,
+  3,
+  Deadline.create(epochAdjustment, 1, ChronoUnit.HOURS),
+  UInt64.fromUint(0),
+  account.address,
+  [],
+  PlainMessage.create('49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
+  undefined,
+  account.publicAccount,
+  new TransactionInfo(UInt64.fromUint(101), 0, '5C5D5BE3E511A20001701A97'),
 );
 
 let validTransferTransaction2 = new TransferTransaction(
-    NetworkType.TEST_NET,
-    3,
-    Deadline.create(),
-    UInt64.fromUint(0),
-    account.address,
-    [],
-    PlainMessage.create('59928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
-    undefined,
-    account.publicAccount,
-    new TransactionInfo(UInt64.fromUint(23), 0, '5C5D5BE3E511A20001701A97')
+  NetworkType.TEST_NET,
+  3,
+  Deadline.create(epochAdjustment, 1, ChronoUnit.HOURS),
+  UInt64.fromUint(0),
+  account.address,
+  [],
+  PlainMessage.create('59928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
+  undefined,
+  account.publicAccount,
+  new TransactionInfo(UInt64.fromUint(23), 0, '5C5D5BE3E511A20001701A97'),
 );
 
 let transferTransactionDifferentReceiver = new TransferTransaction(
-    NetworkType.TEST_NET,
-    3,
-    Deadline.create(),
-    UInt64.fromUint(0),
-    account2.address,
-    [],
-    PlainMessage.create('49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
-    undefined,
-    account.publicAccount,
-    new TransactionInfo(UInt64.fromUint(210), 0, '5C5D5BE3E511A20001701A97')
+  NetworkType.TEST_NET,
+  3,
+  Deadline.create(epochAdjustment, 1, ChronoUnit.HOURS),
+  UInt64.fromUint(0),
+  account2.address,
+  [],
+  PlainMessage.create('49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab'),
+  undefined,
+  account.publicAccount,
+  new TransactionInfo(UInt64.fromUint(210), 0, '5C5D5BE3E511A20001701A97'),
 );
 describe('NemTransactionService', () => {
+  const transactionRegex = /[A-F0-9]{64}/;
 
-    const transactionRegex = /[A-F0-9]{64}/;
+  describe('with valid', () => {
+    describe('NemTransactionService', () => {
+      const personaId: number = 1;
+      const seed: string = 'seed';
+      const connectionId = 2;
+      const blockchain: string = 'PublicTestnet';
+      const keyId: number = 100;
+      const nodeUri: string = 'http://somehost:3000';
+      const documentHash = 'caf6c9e744640159cc972fc83bbb44e09141cfc2c205274cb9cb08a583bbeec5';
 
-    describe('with valid', () => {
-        describe('NemTransactionService', () => {
-            const personaId: number = 1;
-            const seed: string = "seed";
-            const connectionId = 2;
-            const blockchain: string = "PublicTestnet";
-            const keyId: number = 100;
-            const nodeUri: string = "http://somehost:3000";
-            const documentHash = "caf6c9e744640159cc972fc83bbb44e09141cfc2c205274cb9cb08a583bbeec5";
+      let key = new Key(
+        // @ts-ignore
+        Purposes.find(keyId),
+        seed,
+        personaId,
+        connectionId,
+      );
+      let nemAccount = new NemAccount(key, blockchain);
+      let signedTransaction: nem2Sdk.SignedTransaction;
+      test('signedTransaction', () => {
+        NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri)
+          .then(sgndTransaction => {
+            signedTransaction = sgndTransaction;
+            expect(sgndTransaction).toBeInstanceOf(nem2Sdk.SignedTransaction);
+          })
+          .catch(error => {
+            expect(error).toBeUndefined();
+          });
+      });
+      test('transaction', () => {
+        NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri)
+          .then(sgndTransaction => {
+            signedTransaction = sgndTransaction;
+            let announceTransactionMock = jest.fn();
+            announceTransactionMock.mockResolvedValue(signedTransaction.hash);
+            NemTransactionService.announceTransaction = announceTransactionMock.bind(NemTransactionService);
 
-
-
-                let key = new Key(
-                    // @ts-ignore
-                    Purposes.find(keyId),
-                    seed,
-                    personaId,
-                    connectionId
-                );
-                let nemAccount = new NemAccount(key, blockchain);
-                let signedTransaction: nem2Sdk.SignedTransaction;
-                test('signedTransaction', () => {
-
-                        NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri).then((sgndTransaction) => {
-                            signedTransaction = sgndTransaction;
-                            expect(sgndTransaction).toBeInstanceOf(nem2Sdk.SignedTransaction);
-                        }).catch((error) => {
-                            expect(error).toBeUndefined();
-                        });
-                });
-                test('transaction', () => {
-                    
-                    NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri).then((sgndTransaction) => {
-                        signedTransaction = sgndTransaction;
-                        let announceTransactionMock = jest.fn();
-                        announceTransactionMock.mockResolvedValue(signedTransaction.hash);
-                        NemTransactionService.announceTransaction = announceTransactionMock.bind(NemTransactionService);
-
-                        NemTransactionService.timestampTransaction(nemAccount, documentHash, nodeUri).then((transaction: string) => {
-                        expect(transaction).toMatch(transactionRegex);
-                        
-                    }).catch((error) => {
-                        expect(error).toBeUndefined();
-                    });
-                    }).catch((error) => {
-                        expect(error).toBeUndefined();
-                    });
-
-                    
-
-
-                });
-        });
-
-        describe('getRegisteredHashesFromTxList', () => {
-            const returnedTransactions = [validTransferTransaction, validTransferTransaction3, validTransferTransaction2, transferTransactionDifferentReceiver];
-
-            const hashes: string[] = NemTransactionService.getRegisteredHashesFromTxList(returnedTransactions);
-
-            expect(hashes).toEqual(['49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab', '59928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab', '1e04c3815f90220d3d3fdcc8bdae00c24b3d4fd9d2b3858a6eddeb973840c155']);
-
-        });
-
-        describe('getTransactionIndexForHashAndTxList', () => {
-            const notRegisteredHash = '9f158b40887aad871b16994cbd7121edcae0f1ffe56bacc3278fc998d609dbf7';
-            const upToDateHash = '49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab';
-            const outdatedHash = '1e04c3815f90220d3d3fdcc8bdae00c24b3d4fd9d2b3858a6eddeb973840c155';
-
-            test('hash not found', () => {
-                const returnedTransactions = [validTransferTransaction, validTransferTransaction2, validTransferTransaction3];
-
-                const index = NemTransactionService.getTransactionIndexForHashAndTxList(notRegisteredHash, returnedTransactions);
-                expect(index).toEqual(-1);
-            });
-
-            test('hash up to date', () => {
-                const returnedTransactions = [validTransferTransaction, validTransferTransaction2, validTransferTransaction3];
-
-                const index = NemTransactionService.getTransactionIndexForHashAndTxList(upToDateHash, returnedTransactions);
-                expect(index).toEqual(0);
-            });
-
-            test('hash outdated', () => {
-                const returnedTransactions = [validTransferTransaction, validTransferTransaction2, validTransferTransaction3];
-
-                const index = NemTransactionService.getTransactionIndexForHashAndTxList(upToDateHash, returnedTransactions);
-                expect(index).toEqual(0);
-            });
-
-            test('other receivers are excluded', () => {
-                const returnedTransactions = [validTransferTransaction, validTransferTransaction2, validTransferTransaction3, transferTransactionDifferentReceiver];
-
-                const index = NemTransactionService.getTransactionIndexForHashAndTxList(outdatedHash, returnedTransactions);
-                expect(index).toBeGreaterThan(0);
-            });
-        });
+            NemTransactionService.timestampTransaction(nemAccount, documentHash, nodeUri)
+              .then((transaction: string) => {
+                expect(transaction).toMatch(transactionRegex);
+              })
+              .catch(error => {
+                expect(error).toBeUndefined();
+              });
+          })
+          .catch(error => {
+            expect(error).toBeUndefined();
+          });
+      });
     });
+
+    describe('getRegisteredHashesFromTxList', () => {
+      const returnedTransactions = [
+        validTransferTransaction,
+        validTransferTransaction3,
+        validTransferTransaction2,
+        transferTransactionDifferentReceiver,
+      ];
+
+      const hashes: string[] = NemTransactionService.getRegisteredHashesFromTxList(returnedTransactions);
+
+      expect(hashes).toEqual([
+        '49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab',
+        '59928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab',
+        '1e04c3815f90220d3d3fdcc8bdae00c24b3d4fd9d2b3858a6eddeb973840c155',
+      ]);
+    });
+
+    describe('getTransactionIndexForHashAndTxList', () => {
+      const notRegisteredHash = '9f158b40887aad871b16994cbd7121edcae0f1ffe56bacc3278fc998d609dbf7';
+      const upToDateHash = '49928a57bdeb69d3642dbd6da1c6b014892a3b182c4d9e7fefc637c57746f6ab';
+      const outdatedHash = '1e04c3815f90220d3d3fdcc8bdae00c24b3d4fd9d2b3858a6eddeb973840c155';
+
+      test('hash not found', () => {
+        const returnedTransactions = [validTransferTransaction, validTransferTransaction2, validTransferTransaction3];
+
+        const index = NemTransactionService.getTransactionIndexForHashAndTxList(
+          notRegisteredHash,
+          returnedTransactions,
+        );
+        expect(index).toEqual(-1);
+      });
+
+      test('hash up to date', () => {
+        const returnedTransactions = [validTransferTransaction, validTransferTransaction2, validTransferTransaction3];
+
+        const index = NemTransactionService.getTransactionIndexForHashAndTxList(upToDateHash, returnedTransactions);
+        expect(index).toEqual(0);
+      });
+
+      test('hash outdated', () => {
+        const returnedTransactions = [validTransferTransaction, validTransferTransaction2, validTransferTransaction3];
+
+        const index = NemTransactionService.getTransactionIndexForHashAndTxList(upToDateHash, returnedTransactions);
+        expect(index).toEqual(0);
+      });
+
+      test('other receivers are excluded', () => {
+        const returnedTransactions = [
+          validTransferTransaction,
+          validTransferTransaction2,
+          validTransferTransaction3,
+          transferTransactionDifferentReceiver,
+        ];
+
+        const index = NemTransactionService.getTransactionIndexForHashAndTxList(outdatedHash, returnedTransactions);
+        expect(index).toBeGreaterThan(0);
+      });
+    });
+  });
 });

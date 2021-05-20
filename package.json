@@ -34,6 +34,7 @@
         "typescript": "^3.7.4"
     },
     "dependencies": {
+        "@js-joda/core": "^3.2.0",
         "@types/node": "^10.17.13",
         "@types/node-fetch": "^2.5.4",
         "@types/uuid": "^3.4.4",
@@ -47,7 +48,7 @@
         "qrcode": "^1.4.4",
         "ripemd160": "^2.0.2",
         "symbol-hd-wallets": "^0.12.0",
-        "symbol-sdk": "^0.20.6",
+        "symbol-sdk": "^1.0.0",
         "tweetnacl": "^1.0.1",
         "tweetnacl-util": "^0.15.0"
     }
