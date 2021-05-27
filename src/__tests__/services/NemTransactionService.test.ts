@@ -82,7 +82,7 @@ describe('NemTransactionService', () => {
       const keyId: number = 100;
       const nodeUri: string = 'http://somehost:3000';
       const documentHash = 'caf6c9e744640159cc972fc83bbb44e09141cfc2c205274cb9cb08a583bbeec5';
-
+      const epochAdjustment = 1573430400;
       let key = new Key(
         // @ts-ignore
         Purposes.find(keyId),
@@ -93,7 +93,7 @@ describe('NemTransactionService', () => {
       let nemAccount = new NemAccount(key, blockchain);
       let signedTransaction: nem2Sdk.SignedTransaction;
       test('signedTransaction', () => {
-        NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri)
+        NemTransactionService.createTimestampTransaction(nemAccount, epochAdjustment, documentHash, nodeUri)
           .then(sgndTransaction => {
             signedTransaction = sgndTransaction;
             expect(sgndTransaction).toBeInstanceOf(nem2Sdk.SignedTransaction);
@@ -103,14 +103,14 @@ describe('NemTransactionService', () => {
           });
       });
       test('transaction', () => {
-        NemTransactionService.createTimestampTransaction(nemAccount, documentHash, nodeUri)
+        NemTransactionService.createTimestampTransaction(nemAccount, epochAdjustment, documentHash, nodeUri)
           .then(sgndTransaction => {
             signedTransaction = sgndTransaction;
             let announceTransactionMock = jest.fn();
             announceTransactionMock.mockResolvedValue(signedTransaction.hash);
             NemTransactionService.announceTransaction = announceTransactionMock.bind(NemTransactionService);
 
-            NemTransactionService.timestampTransaction(nemAccount, documentHash, nodeUri)
+            NemTransactionService.timestampTransaction(nemAccount, epochAdjustment, documentHash, nodeUri)
               .then((transaction: string) => {
                 expect(transaction).toMatch(transactionRegex);
               })
