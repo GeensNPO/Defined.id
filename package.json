@@ -1,6 +1,6 @@
 {
   "name": "@geens_npo/defined-id",
-  "version": "0.1.7-beta.0",
+  "version": "0.1.7-beta.1",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -37,7 +37,7 @@
     "@js-joda/core": "^3.2.0",
     "@types/node": "^10.17.13",
     "@types/node-fetch": "^2.5.4",
-    "@types/uuid": "^3.4.4",
+    "@types/uuid": "^8.3.0",
     "base-58": "0.0.1",
     "base58check": "^2.0.0",
     "create-hmac": "^1.1.7",
@@ -51,6 +51,7 @@
     "symbol-hd-wallets": "^0.12.0",
     "symbol-sdk": "^1.0.0",
     "tweetnacl": "^1.0.1",
-    "tweetnacl-util": "^0.15.0"
+    "tweetnacl-util": "^0.15.0",
+    "uuid": "^8.3.2"
   }
 }
